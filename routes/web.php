@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CoopShopController;
+use App\Http\Controllers\ShopCartController;
+use App\Http\Controllers\ShopOrderController;
 use App\Http\Controllers\ShopProductDetailController;
 use App\Http\Controllers\ShopCartItemController;
 
@@ -12,17 +13,17 @@ Route::post('/gio-hang/them', [ShopCartItemController::class, 'store'])->name('c
 Route::get('/', [CoopShopController::class, 'index'])->name('coop-shop.home');
 Route::get('/danh-muc/{id}', [CoopShopController::class, 'category'])->name('coop-shop.category');
 
-Route::get('/dang-nhap', [CoopShopController::class, 'login'])->name('coop-shop.login');
-Route::get('/gio-hang', [CoopShopController::class, 'cart'])->name('coop-shop.cart');
+/*
+|--------------------------------------------------------------------------
+| Cart / Order
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/gio-hang', [ShopCartController::class, 'index'])->name('coop-shop.cart');
+Route::post('/gio-hang/xoa', [ShopCartController::class, 'remove'])->name('coop-shop.cart.remove');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/dat-hang', [ShopOrderController::class, 'store'])->name('coop-shop.order.store');
 });
 
 require __DIR__.'/auth.php';
