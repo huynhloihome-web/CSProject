@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CoopShopController;
+use App\Http\Controllers\ShopSearchController;
+
+Route::get('/tim-kiem', [ShopSearchController::class, 'index'])->name('coop-shop.search');
 use App\Http\Controllers\ShopCartController;
 use App\Http\Controllers\ShopOrderController;
 use App\Http\Controllers\ShopProductDetailController;

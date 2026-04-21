@@ -85,9 +85,15 @@
             </span>
         </a>
 
-        <form class="shop-search" action="#" method="get" onsubmit="return false;">
+        <form class="shop-search" action="{{ route('coop-shop.search') }}" method="get">
             <div class="shop-search__box">
-                <input type="text" placeholder="Tìm sản phẩm..." aria-label="Tìm sản phẩm">
+                <input
+                    type="text"
+                    name="keyword"
+                    value="{{ request('keyword') }}"
+                    placeholder="Tìm sản phẩm..."
+                    aria-label="Tìm sản phẩm"
+                >
                 <button type="submit" aria-label="Tìm kiếm">
                     <i class="bi bi-search"></i>
                 </button>
