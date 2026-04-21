@@ -11,6 +11,7 @@ use App\Http\Controllers\ShopCartController;
 use App\Http\Controllers\ShopOrderController;
 use App\Http\Controllers\ShopProductDetailController;
 use App\Http\Controllers\ShopCartItemController;
+use App\Http\Controllers\DonHangController;
 
 Route::get('/san-pham/{id}', [ShopProductDetailController::class, 'show'])->name('coop-shop.detail');
 Route::post('/gio-hang/them', [ShopCartItemController::class, 'store'])->name('coop-shop.cart.add');
@@ -53,6 +54,11 @@ Route::middleware(['auth', 'admin'])->prefix('quan-ly-san-pham')->group(function
     Route::post('/{id}/cap-nhat-ton-kho', [ShopManageProductController::class, 'updateStock'])->name('coop-shop.manage.products.update-stock');
     Route::get('/{id}', [ShopManageProductController::class, 'show'])->name('coop-shop.manage.products.show');
     Route::post('/{id}/xoa', [ShopManageProductController::class, 'destroy'])->name('coop-shop.manage.products.destroy');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/don-hang', [DonHangController::class, 'index'])->name('donhang.index');
+    Route::post('/don-hang/{id}/received', [DonHangController::class, 'markAsReceived'])->name('donhang.received');
 });
 
 require __DIR__ . '/auth.php';

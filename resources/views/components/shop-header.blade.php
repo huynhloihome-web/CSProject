@@ -137,6 +137,8 @@
                     <div class="user-menu__divider"></div>
                     @endif
 
+                    <a href="{{ route('donhang.index') }}" class="user-menu__item">Đơn hàng của tôi</a>
+
                     @if (Route::has('logout'))
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf

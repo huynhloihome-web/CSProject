@@ -87,6 +87,7 @@ class ShopOrderController extends Controller
                     'tinh_trang' => 1,
                     'hinh_thuc_thanh_toan' => $request->hinh_thuc_thanh_toan,
                     'tong_tien' => $tongTien,
+                    'status' => 'shipping',
                 ];
 
                 $maDonHang = DB::table('don_hang')->insertGetId($order, 'ma_don_hang');
