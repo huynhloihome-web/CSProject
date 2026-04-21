@@ -3,6 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CoopShopController;
+use App\Http\Controllers\ShopSearchController;
+
+Route::get('/tim-kiem', [ShopSearchController::class, 'index'])->name('coop-shop.search');
 
 Route::get('/', [CoopShopController::class, 'index'])->name('coop-shop.home');
 Route::get('/danh-muc/{id}', [CoopShopController::class, 'category'])->name('coop-shop.category');
