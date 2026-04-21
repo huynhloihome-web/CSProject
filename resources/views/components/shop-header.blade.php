@@ -101,7 +101,26 @@
                         <span class="user-menu__name">{{ Auth::user()->name }}</span>
                         <i class="bi bi-chevron-down"></i>
                     </button>
-                 </div> 
+
+                    <div class="user-menu__dropdown">
+                        <a href="{{ $manageUrl }}" class="user-menu__item">
+                            Quản lý
+                        </a>
+
+                        <div class="user-menu__divider"></div>
+
+                        @if($logoutRouteExists)
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="user-menu__logout-btn">
+                                    Đăng xuất
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+                </div>
+            @else
+                <a href="{{ $loginUrl }}" class="btn-login">Đăng nhập</a>
             @endauth
             <a href="{{ route('coop-shop.cart') }}" class="btn-cart" aria-label="Giỏ hàng" style="position: relative;">
                 <i class="bi bi-cart3"></i>
