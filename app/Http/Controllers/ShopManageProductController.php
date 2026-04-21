@@ -86,6 +86,6 @@ class ShopManageProductController extends Controller
 
         return redirect()
             ->route('coop-shop.manage.products.index')
-            ->with('status', 'Đã xóa mềm sản phẩm thành công.');
+            ->with('status', 'Đã xóa sản phẩm thành công.');
     }
 }
