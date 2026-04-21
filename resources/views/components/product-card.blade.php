@@ -3,16 +3,20 @@
 ])
 
 <article class="product-card">
-    <div class="product-card__image-wrap">
+    <a href="{{ route('coop-shop.detail', ['id' => $product->id]) }}" class="product-card__image-wrap">
         <img
             src="{{ $product->hinh_anh }}"
             alt="{{ $product->tieu_de }}"
             class="product-card__image"
         >
-    </div>
+    </a>
 
     <div class="product-card__body">
-        <h3 class="product-card__title">{{ $product->tieu_de }}</h3>
+        <h3 class="product-card__title">
+            <a href="{{ route('coop-shop.detail', ['id' => $product->id]) }}">
+                {{ $product->tieu_de }}
+            </a>
+        </h3>
 
         <div class="product-card__unit">
             Đơn vị tính: {{ $product->don_vi_tinh }}
@@ -20,7 +24,7 @@
 
         <div class="product-card__promo">
             Khuyến mãi:
-            @if(!empty($product->khuyen_mai))
+            @if (!empty($product->khuyen_mai))
                 {{ $product->khuyen_mai }}
             @else
                 Không có
@@ -40,7 +44,9 @@
                 @endif
             </div>
 
-            <button type="button" class="buy-btn">Mua</button>
+            <a href="{{ route('coop-shop.detail', ['id' => $product->id]) }}" class="buy-btn">
+                Mua
+            </a>
         </div>
     </div>
 </article>

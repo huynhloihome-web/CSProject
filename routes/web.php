@@ -4,6 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CoopShopController;
 use App\Http\Controllers\ShopCartController;
 use App\Http\Controllers\ShopOrderController;
+use App\Http\Controllers\ShopProductDetailController;
+use App\Http\Controllers\ShopCartItemController;
+
+Route::get('/san-pham/{id}', [ShopProductDetailController::class, 'show'])->name('coop-shop.detail');
+Route::post('/gio-hang/them', [ShopCartItemController::class, 'store'])->name('coop-shop.cart.add');
 
 Route::get('/', [CoopShopController::class, 'index'])->name('coop-shop.home');
 Route::get('/danh-muc/{id}', [CoopShopController::class, 'category'])->name('coop-shop.category');
@@ -20,11 +25,5 @@ Route::post('/gio-hang/xoa', [ShopCartController::class, 'remove'])->name('coop-
 Route::middleware('auth')->group(function () {
     Route::post('/dat-hang', [ShopOrderController::class, 'store'])->name('coop-shop.order.store');
 });
-
-/*
-|--------------------------------------------------------------------------
-| Laravel Auth
-|--------------------------------------------------------------------------
-*/
 
 require __DIR__.'/auth.php';
