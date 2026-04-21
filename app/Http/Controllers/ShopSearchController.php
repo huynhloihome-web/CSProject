@@ -28,6 +28,7 @@ class ShopSearchController extends Controller
                     'tieu_de',
                     'gia_goc',
                     'gia_ban',
+                    'ton_kho',
                     'hinh_anh',
                     'don_vi_tinh',
                     'khuyen_mai',

@@ -15,6 +15,7 @@ class ShopManageProductController extends Controller
                 'tieu_de',
                 'gia_goc',
                 'gia_ban',
+                'ton_kho',
                 'hinh_anh',
                 'don_vi_tinh',
                 'khuyen_mai',
@@ -52,6 +53,7 @@ class ShopManageProductController extends Controller
             'ten_sp' => ['required', 'string', 'max:255'],
             'gia_ban' => ['required', 'numeric', 'min:0'],
             'gia_goc' => ['required', 'numeric', 'min:0', 'gte:gia_ban'],
+            'ton_kho' => ['nullable', 'integer', 'min:0'],
             'hinh_anh' => ['required', 'url', 'max:500'],
             'danh_muc_id' => ['required', 'integer', 'exists:danh_muc,id'],
             'don_vi_tinh' => ['required', 'string', 'max:50'],
@@ -82,6 +84,7 @@ class ShopManageProductController extends Controller
             'ten_sp' => $validated['ten_sp'],
             'gia_ban' => $validated['gia_ban'],
             'gia_goc' => $validated['gia_goc'],
+            'ton_kho' => $validated['ton_kho'] ?? 100,
             'hinh_anh' => $validated['hinh_anh'],
             'danh_muc_id' => $category->id,
             'danh_muc_ten' => $category->ten,
@@ -111,6 +114,7 @@ class ShopManageProductController extends Controller
                 'ten_sp',
                 'gia_goc',
                 'gia_ban',
+                'ton_kho',
                 'hinh_anh',
                 'don_vi_tinh',
                 'trong_luong',
@@ -131,6 +135,30 @@ class ShopManageProductController extends Controller
         }
 
         return view('coop-shop.manage-products.show', compact('product'));
+    }
+
+    public function updateStock(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'ton_kho' => ['required', 'integer', 'min:0'],
+        ]);
+
+        $updatedRows = DB::table('san_pham_bhx')
+            ->where('id', $id)
+            ->where('status', 1)
+            ->update([
+                'ton_kho' => $validated['ton_kho'],
+            ]);
+
+        if ($updatedRows === 0) {
+            return redirect()
+                ->route('coop-shop.manage.products.index')
+                ->with('status', 'Sản phẩm không tồn tại hoặc đã bị xóa.');
+        }
+
+        return redirect()
+            ->route('coop-shop.manage.products.index')
+            ->with('status', 'Đã cập nhật tồn kho thành công.');
     }
 
     public function destroy($id)

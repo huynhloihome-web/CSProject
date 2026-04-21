@@ -1,5 +1,5 @@
 @props([
-    'product' => []
+    'product' => [],
 ])
 
 <article class="product-card">
@@ -33,8 +33,14 @@
 
         <div class="product-card__footer">
             <div class="product-card__price-block">
-                <div class="product-card__price">
-                    {{ number_format($product->gia_ban, 0, ',', '.') }}đ
+                <div class="product-card__price-row">
+                    <div class="product-card__price">
+                        {{ number_format($product->gia_ban, 0, ',', '.') }}đ
+                    </div>
+
+                    <div class="product-card__stock">
+                        Tồn kho: {{ (int) ($product->ton_kho ?? 0) }}
+                    </div>
                 </div>
 
                 @if (!empty($product->gia_goc))

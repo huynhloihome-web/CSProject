@@ -50,6 +50,7 @@ Route::middleware(['auth', 'admin'])->prefix('quan-ly-san-pham')->group(function
     Route::get('/', [ShopManageProductController::class, 'index'])->name('coop-shop.manage.products.index');
     Route::get('/them-moi', [ShopManageProductController::class, 'create'])->name('coop-shop.manage.products.create');
     Route::post('/them-moi', [ShopManageProductController::class, 'store'])->name('coop-shop.manage.products.store');
+    Route::post('/{id}/cap-nhat-ton-kho', [ShopManageProductController::class, 'updateStock'])->name('coop-shop.manage.products.update-stock');
     Route::get('/{id}', [ShopManageProductController::class, 'show'])->name('coop-shop.manage.products.show');
     Route::post('/{id}/xoa', [ShopManageProductController::class, 'destroy'])->name('coop-shop.manage.products.destroy');
 });

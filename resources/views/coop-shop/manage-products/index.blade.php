@@ -48,6 +48,21 @@
             display: flex;
             gap: 8px;
             align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .stock-form {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stock-input {
+            width: 88px;
+            padding: 8px 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            background: #fff;
         }
 
         .btn-view {
@@ -58,6 +73,16 @@
             border-radius: 6px;
             font-weight: 600;
             text-decoration: none;
+        }
+
+        .btn-stock {
+            border: none;
+            padding: 8px 12px;
+            background: #08be46;
+            color: #ffffff;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
         }
 
         .btn-delete {
@@ -125,6 +150,7 @@
                     <th>Khuyến mãi</th>
                     <th>Giá gốc</th>
                     <th>Giá bán</th>
+                    <th>Tồn kho</th>
                     <th>Ảnh</th>
                     <th>Thao tác</th>
                 </tr>
@@ -138,6 +164,20 @@
                     <td>{{ $row->khuyen_mai ?: 'Không có' }}</td>
                     <td>{{ number_format((float) $row->gia_goc, 0, ',', '.') }}đ</td>
                     <td>{{ number_format((float) $row->gia_ban, 0, ',', '.') }}đ</td>
+                    <td>
+                        <form method="POST" action="{{ route('coop-shop.manage.products.update-stock', $row->id) }}" class="stock-form">
+                            @csrf
+                            <input
+                                type="number"
+                                name="ton_kho"
+                                min="0"
+                                value="{{ (int) ($row->ton_kho ?? 0) }}"
+                                class="stock-input"
+                                aria-label="Tồn kho của {{ $row->tieu_de }}"
+                            >
+                            <button type="submit" class="btn-stock">Lưu</button>
+                        </form>
+                    </td>
                     <td>
                         <img src="{{ $row->hinh_anh }}" alt="{{ $row->tieu_de }}" class="admin-thumb">
                     </td>

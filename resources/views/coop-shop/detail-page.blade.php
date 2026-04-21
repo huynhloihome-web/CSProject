@@ -74,6 +74,24 @@
             margin-top:14px;
         }
 
+        .detail-price-row{
+            display:flex;
+            align-items:center;
+            gap:14px;
+            flex-wrap:wrap;
+        }
+
+        .detail-stock{
+            margin-top:14px;
+            padding:8px 12px;
+            border-radius:999px;
+            background:#ecfdf3;
+            color:#15803d;
+            font-size:15px;
+            font-weight:700;
+            line-height:1;
+        }
+
         .detail-old-price{
             margin-top:8px;
             color:#94a3b8;
@@ -229,8 +247,13 @@
                             @endif
                         </div>
 
-                        <div class="detail-price">
-                            {{ number_format($product->gia_ban, 0, ',', '.') }}đ
+                        <div class="detail-price-row">
+                            <div class="detail-price">
+                                {{ number_format($product->gia_ban, 0, ',', '.') }}đ
+                            </div>
+                            <div class="detail-stock">
+                                Tồn kho: {{ (int) ($product->ton_kho ?? 0) }}
+                            </div>
                         </div>
 
                         @if(!empty($product->gia_goc))

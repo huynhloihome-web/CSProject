@@ -364,11 +364,28 @@ input {
     flex: 1;
 }
 
+.product-card__price-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
 .product-card__price {
     font-size: 1.85rem;
     line-height: 1;
     color: var(--orange);
     font-weight: 800;
+}
+
+.product-card__stock {
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #ecfdf3;
+    color: var(--green);
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1;
 }
 
 .product-card__old-price {
