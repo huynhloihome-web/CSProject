@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ShopManageProductController;
 
 class CoopShopController extends Controller
 {
@@ -24,10 +26,12 @@ class CoopShopController extends Controller
                 'hinh_anh',
                 'don_vi_tinh',
                 'khuyen_mai',
-                'danh_muc_id'
-            );
+                'danh_muc_id',
+                'status'
+            )
+            ->where('status', 1);
 
-        if ($sort != '') {
+        if ($sort !== '') {
             $query->orderBy('gia_ban', $sort);
         } else {
             $query->orderBy('id', 'asc');
@@ -72,11 +76,13 @@ class CoopShopController extends Controller
                 'hinh_anh',
                 'don_vi_tinh',
                 'khuyen_mai',
-                'danh_muc_id'
+                'danh_muc_id',
+                'status'
             )
+            ->where('status', 1)
             ->where('danh_muc_id', $id);
 
-        if ($sort != '') {
+        if ($sort !== '') {
             $query->orderBy('gia_ban', $sort);
         } else {
             $query->orderBy('id', 'asc');
@@ -85,7 +91,7 @@ class CoopShopController extends Controller
         $products = $query->get();
 
         $pageTitle = $category->ten;
-        $activeCategoryId = $id;
+        $activeCategoryId = (int) $id;
 
         return view('coop-shop.index', compact(
             'categories',
@@ -98,15 +104,23 @@ class CoopShopController extends Controller
 
     public function login()
     {
+        if (Route::has('login')) {
+            return redirect()->route('login');
+        }
+
         return redirect()->route('coop-shop.home');
     }
 
     public function cart()
     {
+        if (Route::has('coop-shop.cart')) {
+            return redirect()->route('coop-shop.cart');
+        }
+
         return redirect()->route('coop-shop.home');
     }
 
-    private function getSort(Request $request)
+    private function getSort(Request $request): string
     {
         $sort = $request->input('sort');
 
