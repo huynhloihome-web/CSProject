@@ -5,6 +5,7 @@ use App\Http\Controllers\CoopShopController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopManageProductController;
 use App\Http\Controllers\ShopSearchController;
+use App\Http\Controllers\OrderStatusController;
 
 Route::get('/tim-kiem', [ShopSearchController::class, 'index'])->name('coop-shop.search');
 use App\Http\Controllers\ShopCartController;
@@ -53,6 +54,13 @@ Route::middleware(['auth', 'admin'])->prefix('quan-ly-san-pham')->group(function
     Route::post('/{id}/cap-nhat-ton-kho', [ShopManageProductController::class, 'updateStock'])->name('coop-shop.manage.products.update-stock');
     Route::get('/{id}', [ShopManageProductController::class, 'show'])->name('coop-shop.manage.products.show');
     Route::post('/{id}/xoa', [ShopManageProductController::class, 'destroy'])->name('coop-shop.manage.products.destroy');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/order-status', [OrderStatusController::class, 'index'])->name('order.status');
+
+    Route::post('/order-status/{id}/received', [OrderStatusController::class, 'received'])
+        ->name('order.received');
 });
 
 require __DIR__ . '/auth.php';
