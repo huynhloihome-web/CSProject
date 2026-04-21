@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CoopShopController;
+use App\Http\Controllers\ShopManageProductController;
 use App\Http\Controllers\ShopSearchController;
 
 Route::get('/tim-kiem', [ShopSearchController::class, 'index'])->name('coop-shop.search');
@@ -43,4 +44,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-require __DIR__.'/auth.php';
+
+Route::middleware('auth')->prefix('quan-ly-san-pham')->group(function () {
+    Route::get('/', [ShopManageProductController::class, 'index'])->name('coop-shop.manage.products.index');
+    Route::get('/{id}', [ShopManageProductController::class, 'show'])->name('coop-shop.manage.products.show');
+    Route::post('/{id}/xoa', [ShopManageProductController::class, 'destroy'])->name('coop-shop.manage.products.destroy');
+});
+
+require __DIR__ . '/auth.php';

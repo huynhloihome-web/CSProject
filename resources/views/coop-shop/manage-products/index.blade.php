@@ -83,9 +83,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
 
     @if(session('status'))
-        <div class="status-message">
-            {{ session('status') }}
-        </div>
+    <div class="status-message">
+        {{ session('status') }}
+    </div>
     @endif
 
     <div class="manage-wrapper">
@@ -106,29 +106,29 @@
             </thead>
             <tbody>
                 @foreach($products as $row)
-                    <tr>
-                        <td>{{ $row->tieu_de }}</td>
-                        <td>{{ $row->ten_sp }}</td>
-                        <td>{{ $row->don_vi_tinh }}</td>
-                        <td>{{ $row->khuyen_mai ?: 'Không có' }}</td>
-                        <td>{{ number_format((float) $row->gia_goc, 0, ',', '.') }}đ</td>
-                        <td>{{ number_format((float) $row->gia_ban, 0, ',', '.') }}đ</td>
-                        <td>
-                            <img src="{{ $row->hinh_anh }}" alt="{{ $row->tieu_de }}" class="admin-thumb">
-                        </td>
-                        <td>
-                            <div class="action-group">
-                                <a href="{{ route('coop-shop.manage.products.show', $row->id) }}" class="btn-view">
-                                    Xem
-                                </a>
+                <tr>
+                    <td>{{ $row->tieu_de }}</td>
+                    <td>{{ $row->ten_sp }}</td>
+                    <td>{{ $row->don_vi_tinh }}</td>
+                    <td>{{ $row->khuyen_mai ?: 'Không có' }}</td>
+                    <td>{{ number_format((float) $row->gia_goc, 0, ',', '.') }}đ</td>
+                    <td>{{ number_format((float) $row->gia_ban, 0, ',', '.') }}đ</td>
+                    <td>
+                        <img src="{{ $row->hinh_anh }}" alt="{{ $row->tieu_de }}" class="admin-thumb">
+                    </td>
+                    <td>
+                        <div class="action-group">
+                            <a href="{{ route('coop-shop.manage.products.show', $row->id) }}" class="btn-view">
+                                Xem
+                            </a>
 
-                                <form method="POST" action="{{ route('coop-shop.manage.products.destroy', $row->id) }}" onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
-                                    @csrf
-                                    <button type="submit" class="btn-delete">Xóa</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
+                            <form method="POST" action="{{ route('coop-shop.manage.products.destroy', $row->id) }}" onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
+                                @csrf
+                                <button type="submit" class="btn-delete">Xóa</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
@@ -137,7 +137,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#manage-product-table').DataTable({
                 pageLength: 10,
                 language: {

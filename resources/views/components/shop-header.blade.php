@@ -66,11 +66,10 @@
     </style>
 
     @php
-        $homeUrl = Route::has('coop-shop.home') ? route('coop-shop.home') : url('/');
-        $cartUrl = Route::has('coop-shop.cart') ? route('coop-shop.cart') : url('/gio-hang');
-        $loginUrl = Route::has('login') ? route('login') : url('/login');
-        $logoutRouteExists = Route::has('logout');
-        $manageUrl = 'javascript:void(0)';
+    $homeUrl = Route::has('coop-shop.home') ? route('coop-shop.home') : url('/');
+    $loginUrl = Route::has('login') ? route('login') : url('/login');
+    $cartUrl = Route::has('coop-shop.cart') ? route('coop-shop.cart') : url('/gio-hang');
+    $manageUrl = Route::has('coop-shop.manage.products.index') ? route('coop-shop.manage.products.index') : 'javascript:void(0)';
     @endphp
 
     <div class="shop-header__inner">
@@ -102,33 +101,30 @@
 
         <div class="shop-actions">
             @auth
-                <div class="user-menu">
-                    <button type="button" class="btn-login user-menu__button">
-                        <span class="user-menu__name">{{ Auth::user()->name }}</span>
-                        <i class="bi bi-chevron-down"></i>
-                    </button>
+            <div class="user-menu">
+                <button type="button" class="btn-login user-menu__button">
+                    <span class="user-menu__name">{{ Auth::user()->name }}</span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
 
-                    <div class="user-menu__dropdown">
-                        <a href="{{ $manageUrl }}" class="user-menu__item">
-                            Quản lý
-                        </a>
+                <div class="user-menu__dropdown">
+                    <a href="{{ $manageUrl }}" class="user-menu__item">Quản lý</a>
 
-                        <div class="user-menu__divider"></div>
+                    <div class="user-menu__divider"></div>
 
-                        @if($logoutRouteExists)
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="user-menu__logout-btn">
-                                    Đăng xuất
-                                </button>
-                            </form>
-                        @endif
-                    </div>
+                    @if(Route::has('logout'))
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="user-menu__logout-btn">Đăng xuất</button>
+                    </form>
+                    @endif
                 </div>
+            </div>
             @else
-                <a href="{{ $loginUrl }}" class="btn-login">Đăng nhập</a>
+            <a href="{{ $loginUrl }}" class="btn-login">Đăng nhập</a>
             @endauth
-            <a href="{{ route('coop-shop.cart') }}" class="btn-cart" aria-label="Giỏ hàng" style="position: relative;">
+
+            <a href="{{ $cartUrl }}" class="btn-cart" aria-label="Giỏ hàng" style="position: relative;">
                 <i class="bi bi-cart3"></i>
 
                 <span
@@ -149,8 +145,7 @@
                         justify-content:center;
                         padding:0 5px;
                         line-height:1;
-                    "
-                >
+                    ">
                     {{ array_sum(session('cart', [])) }}
                 </span>
             </a>
