@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CoopShopController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopManageProductController;
 use App\Http\Controllers\ShopSearchController;
 
@@ -45,8 +46,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth')->prefix('quan-ly-san-pham')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('quan-ly-san-pham')->group(function () {
     Route::get('/', [ShopManageProductController::class, 'index'])->name('coop-shop.manage.products.index');
+    Route::get('/them-moi', [ShopManageProductController::class, 'create'])->name('coop-shop.manage.products.create');
+    Route::post('/them-moi', [ShopManageProductController::class, 'store'])->name('coop-shop.manage.products.store');
     Route::get('/{id}', [ShopManageProductController::class, 'show'])->name('coop-shop.manage.products.show');
     Route::post('/{id}/xoa', [ShopManageProductController::class, 'destroy'])->name('coop-shop.manage.products.destroy');
 });

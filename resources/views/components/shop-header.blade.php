@@ -12,6 +12,21 @@
             gap: 8px;
         }
 
+        .user-menu__badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
         .user-menu__dropdown {
             position: absolute;
             top: calc(100% + 10px);
@@ -26,7 +41,7 @@
             overflow: hidden;
         }
 
-        .user-menu:hover .user-menu__dropdown {
+        .user-menu.is-open .user-menu__dropdown {
             display: block;
         }
 
@@ -102,17 +117,27 @@
         <div class="shop-actions">
             @auth
             <div class="user-menu">
-                <button type="button" class="btn-login user-menu__button">
+                <button
+                    type="button"
+                    class="btn-login user-menu__button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                >
                     <span class="user-menu__name">{{ Auth::user()->name }}</span>
+                    @if (Auth::user()->isAdmin())
+                    <span class="user-menu__badge">Admin</span>
+                    @endif
                     <i class="bi bi-chevron-down"></i>
                 </button>
 
                 <div class="user-menu__dropdown">
+                    @if (Auth::user()->isAdmin())
                     <a href="{{ $manageUrl }}" class="user-menu__item">Quản lý</a>
 
                     <div class="user-menu__divider"></div>
+                    @endif
 
-                    @if(Route::has('logout'))
+                    @if (Route::has('logout'))
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="user-menu__logout-btn">Đăng xuất</button>
@@ -152,3 +177,49 @@
         </div>
     </div>
 </header>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.user-menu').forEach(function (menu) {
+            var button = menu.querySelector('.user-menu__button');
+
+            if (!button) {
+                return;
+            }
+
+            button.addEventListener('click', function (event) {
+                event.stopPropagation();
+
+                var willOpen = !menu.classList.contains('is-open');
+
+                document.querySelectorAll('.user-menu.is-open').forEach(function (openMenu) {
+                    openMenu.classList.remove('is-open');
+
+                    var openButton = openMenu.querySelector('.user-menu__button');
+
+                    if (openButton) {
+                        openButton.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                menu.classList.toggle('is-open', willOpen);
+                button.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            });
+        });
+
+        document.addEventListener('click', function (event) {
+            document.querySelectorAll('.user-menu.is-open').forEach(function (menu) {
+                if (menu.contains(event.target)) {
+                    return;
+                }
+
+                menu.classList.remove('is-open');
+
+                var button = menu.querySelector('.user-menu__button');
+
+                if (button) {
+                    button.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+    });
+</script>

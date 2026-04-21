@@ -7,12 +7,21 @@
             padding: 24px;
         }
 
+        .manage-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
         .manage-title {
             text-align: center;
             font-size: 32px;
             font-weight: 800;
             color: #2563eb;
-            margin-bottom: 20px;
+            margin: 0;
         }
 
         .status-message {
@@ -61,6 +70,19 @@
             cursor: pointer;
         }
 
+        .btn-create {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            background: #08be46;
+            color: #ffffff;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
         table.dataTable thead th {
             white-space: nowrap;
         }
@@ -89,7 +111,10 @@
     @endif
 
     <div class="manage-wrapper">
-        <div class="manage-title">QUẢN LÝ SẢN PHẨM</div>
+        <div class="manage-header">
+            <div class="manage-title">QUẢN LÝ SẢN PHẨM</div>
+            <a href="{{ route('coop-shop.manage.products.create') }}" class="btn-create">Thêm sản phẩm</a>
+        </div>
 
         <table id="manage-product-table" class="display" style="width:100%">
             <thead>
@@ -118,9 +143,7 @@
                     </td>
                     <td>
                         <div class="action-group">
-                            <a href="{{ route('coop-shop.manage.products.show', $row->id) }}" class="btn-view">
-                                Xem
-                            </a>
+                            <a href="{{ route('coop-shop.manage.products.show', $row->id) }}" class="btn-view">Xem</a>
 
                             <form method="POST" action="{{ route('coop-shop.manage.products.destroy', $row->id) }}" onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
                                 @csrf
