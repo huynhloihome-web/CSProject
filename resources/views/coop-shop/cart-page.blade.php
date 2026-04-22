@@ -229,20 +229,20 @@
             </div>
 
             <div class="cart-order-box">
-                @auth
-                    <form method="post" action="{{ route('coop-shop.order.store') }}">
-                        @csrf
+               @auth
+   <form method="GET" action="{{ route('coop-shop.address') }}">
+    <div style="font-weight:bold; margin-bottom:8px;">Hình thức thanh toán</div>
 
-                        <div style="font-weight:bold; margin-bottom:8px;">Hình thức thanh toán</div>
-                        <select name="hinh_thuc_thanh_toan">
-                            <option value="1">Tiền mặt</option>
-                            <option value="2">Chuyển khoản</option>
-                            <option value="3">Thanh toán VNPay</option>
-                        </select>
-                        <br>
+    <select name="hinh_thuc_thanh_toan">
+        <option value="1">Tiền mặt</option>
+        <option value="2">Chuyển khoản</option>
+        <option value="3">Thanh toán VNPay</option>
+    </select>
 
-                        <button type="submit" class="cart-order-btn">ĐẶT HÀNG</button>
-                    </form>
+    <br>
+
+    <button type="submit" class="cart-order-btn">ĐẶT HÀNG</button>
+</form>
                 @else
                     <div style="font-weight:bold; color:#dc2626;">
                         Vui lòng đăng nhập trước khi đặt hàng
