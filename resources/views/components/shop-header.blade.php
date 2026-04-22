@@ -114,7 +114,7 @@
             </div>
         </form>
 
-        <div class="shop-actions">
+        <div class="shop-actions" style="display:flex; align-items:center; gap:15px;">
             @auth
             <div class="user-menu">
                 <button
@@ -152,9 +152,9 @@
                         Đơn hàng của tôi
                     </a>
 
-                    <div class="user-menu__divider"></div>
-
                 @endif
+                    
+                    <div class="user-menu__divider"></div>
 
                 {{-- LOGOUT --}}
                 @if (Route::has('logout'))
@@ -165,6 +165,7 @@
                     </button>
                 </form>
                 @endif
+            </div>
             </div>
             @else
             <a href="{{ $loginUrl }}" class="btn-login">Đăng nhập</a>
