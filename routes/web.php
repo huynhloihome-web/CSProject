@@ -5,20 +5,28 @@ use App\Http\Controllers\CoopShopController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopManageProductController;
 use App\Http\Controllers\ShopSearchController;
+
 use App\Http\Controllers\ShopCheckoutController;
 use App\Http\Controllers\ShopOrderController;
 
 
+use App\Http\Controllers\OrderStatusController;
+
+
 Route::get('/tim-kiem', [ShopSearchController::class, 'index'])->name('coop-shop.search');
+
 use App\Http\Controllers\ShopCartController;
 use App\Http\Controllers\ShopProductDetailController;
 use App\Http\Controllers\ShopCartItemController;
 use App\Http\Controllers\ShopAddressController;
+
 Route::post('/address/select/{id}', [ShopAddressController::class, 'select'])
     ->name('address.select');
-Route::post('/them-dia-chi',
-[ShopAddressController::class,'store'])
-->name('coop-shop.address.store');
+Route::post(
+    '/them-dia-chi',
+    [ShopAddressController::class, 'store']
+)
+    ->name('coop-shop.address.store');
 Route::post('/dat-hang', [ShopOrderController::class, 'store'])
     ->name('coop-shop.order.store');
 Route::get('/xac-nhan-don', [ShopCheckoutController::class, 'confirm'])
@@ -68,6 +76,13 @@ Route::middleware(['auth', 'admin'])->prefix('quan-ly-san-pham')->group(function
     Route::post('/{id}/cap-nhat-ton-kho', [ShopManageProductController::class, 'updateStock'])->name('coop-shop.manage.products.update-stock');
     Route::get('/{id}', [ShopManageProductController::class, 'show'])->name('coop-shop.manage.products.show');
     Route::post('/{id}/xoa', [ShopManageProductController::class, 'destroy'])->name('coop-shop.manage.products.destroy');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/order-status', [OrderStatusController::class, 'index'])->name('order.status');
+    Route::get('/order-status/{id}', [OrderStatusController::class, 'show'])->name('order.detail');
+    Route::post('/order-status/{id}/received', [OrderStatusController::class, 'received'])->name('order.received');
+    Route::post('/order-status/{id}/return', [OrderStatusController::class, 'submitReturn'])->name('order.return');
 });
 
 require __DIR__ . '/auth.php';
