@@ -130,54 +130,75 @@
                     <i class="bi bi-chevron-down"></i>
                 </button>
 
-                <div class="user-menu__dropdown">
-                    @if (Auth::user()->isAdmin())
-                    <a href="{{ $manageUrl }}" class="user-menu__item">Quản lý</a>
+            <div class="user-menu__dropdown">
+
+                {{-- ADMIN --}}
+                @if (Auth::user()->isAdmin())
+
+                    <a href="{{ route('admin.orders') }}" class="user-menu__item">
+                        Quản lý đơn hàng
+                    </a>
+
+                    <a href="{{ route('coop-shop.manage.products.index') }}" class="user-menu__item">
+                        Quản lý sản phẩm
+                    </a>
 
                     <div class="user-menu__divider"></div>
-                    @endif
 
+                @else
+
+                    {{-- USER --}}
                     <a href="{{ route('order.status') }}" class="user-menu__item">
                         Đơn hàng của tôi
                     </a>
 
-                    @if (Route::has('logout'))
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="user-menu__logout-btn">Đăng xuất</button>
-                    </form>
-                    @endif
-                </div>
+                    <div class="user-menu__divider"></div>
+
+                @endif
+
+                {{-- LOGOUT --}}
+                @if (Route::has('logout'))
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="user-menu__logout-btn">
+                        Đăng xuất
+                    </button>
+                </form>
+                @endif
             </div>
             @else
             <a href="{{ $loginUrl }}" class="btn-login">Đăng nhập</a>
             @endauth
 
-            <a href="{{ $cartUrl }}" class="btn-cart" aria-label="Giỏ hàng" style="position: relative;">
-                <i class="bi bi-cart3"></i>
+        @auth
+            @if (!Auth::user()->isAdmin())
+                <a href="{{ $cartUrl }}" class="btn-cart" aria-label="Giỏ hàng" style="position: relative;">
+                    <i class="bi bi-cart3"></i>
 
-                <span
-                    id="cart-number-product"
-                    style="
-                        position:absolute;
-                        top:-4px;
-                        right:-4px;
-                        min-width:22px;
-                        height:22px;
-                        border-radius:50%;
-                        background:#ffffff;
-                        color:#08be46;
-                        font-size:12px;
-                        font-weight:bold;
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
-                        padding:0 5px;
-                        line-height:1;
-                    ">
-                    {{ array_sum(session('cart', [])) }}
-                </span>
-            </a>
+                    <span
+                        id="cart-number-product"
+                        style="
+                            position:absolute;
+                            top:-4px;
+                            right:-4px;
+                            min-width:22px;
+                            height:22px;
+                            border-radius:50%;
+                            background:#ffffff;
+                            color:#08be46;
+                            font-size:12px;
+                            font-weight:bold;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            padding:0 5px;
+                            line-height:1;
+                        ">
+                        {{ array_sum(session('cart', [])) }}
+                    </span>
+                </a>
+            @endif
+        @endauth
         </div>
     </div>
 </header>

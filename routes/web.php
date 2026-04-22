@@ -7,6 +7,7 @@ use App\Http\Controllers\ShopManageProductController;
 use App\Http\Controllers\ShopSearchController;
 use App\Http\Controllers\OrderStatusController;
 
+
 Route::get('/tim-kiem', [ShopSearchController::class, 'index'])->name('coop-shop.search');
 use App\Http\Controllers\ShopCartController;
 use App\Http\Controllers\ShopOrderController;
@@ -62,4 +63,18 @@ Route::middleware('auth')->group(function () {
     Route::post('/order-status/{id}/received', [OrderStatusController::class, 'received'])->name('order.received');
     Route::post('/order-status/{id}/return', [OrderStatusController::class, 'submitReturn'])->name('order.return');});
 
+use App\Http\Controllers\AdminOrderController;
+Route::middleware(['auth','admin'])->group(function () {
+
+    Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders');
+
+    // XEM CHI TIẾT
+    Route::get('/admin/orders/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
+
+    // XỬ LÝ
+    Route::post('/admin/orders/{id}/approve', [AdminOrderController::class, 'approve'])->name('admin.orders.approve');
+    Route::post('/admin/orders/{id}/reject', [AdminOrderController::class, 'reject'])->name('admin.orders.reject');
+    Route::post('/admin/orders/{id}/need-info', [AdminOrderController::class, 'needInfo'])->name('admin.orders.needInfo');
+
+});
 require __DIR__ . '/auth.php';
