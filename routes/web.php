@@ -5,12 +5,27 @@ use App\Http\Controllers\CoopShopController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopManageProductController;
 use App\Http\Controllers\ShopSearchController;
+use App\Http\Controllers\ShopCheckoutController;
+use App\Http\Controllers\ShopOrderController;
+
 
 Route::get('/tim-kiem', [ShopSearchController::class, 'index'])->name('coop-shop.search');
 use App\Http\Controllers\ShopCartController;
-use App\Http\Controllers\ShopOrderController;
 use App\Http\Controllers\ShopProductDetailController;
 use App\Http\Controllers\ShopCartItemController;
+use App\Http\Controllers\ShopAddressController;
+Route::post('/address/select/{id}', [ShopAddressController::class, 'select'])
+    ->name('address.select');
+Route::post('/them-dia-chi',
+[ShopAddressController::class,'store'])
+->name('coop-shop.address.store');
+Route::post('/dat-hang', [ShopOrderController::class, 'store'])
+    ->name('coop-shop.order.store');
+Route::get('/xac-nhan-don', [ShopCheckoutController::class, 'confirm'])
+    ->name('coop-shop.checkout.confirm');
+Route::get('/dia-chi', [ShopAddressController::class, 'index'])
+    ->name('coop-shop.address');
+
 
 Route::get('/san-pham/{id}', [ShopProductDetailController::class, 'show'])->name('coop-shop.detail');
 Route::post('/gio-hang/them', [ShopCartItemController::class, 'store'])->name('coop-shop.cart.add');

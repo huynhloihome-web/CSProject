@@ -12,9 +12,10 @@ class ShopOrderController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
-            'hinh_thuc_thanh_toan' => ['required', 'numeric'],
-        ]);
+       $request->validate([
+    'hinh_thuc_thanh_toan' => ['required', 'numeric'],
+    'address_id' => ['required']
+]);
 
         $cart = session()->get('cart', []);
 
@@ -80,14 +81,26 @@ class ShopOrderController extends Controller
                     $soLuong = (int) $cart[$row->id];
                     $tongTien += $row->gia_ban * $soLuong;
                 }
+                           
 
-                $order = [
-                    'user_id' => Auth::id(),
-                    'ngay_dat_hang' => now(),
-                    'tinh_trang' => 1,
-                    'hinh_thuc_thanh_toan' => $request->hinh_thuc_thanh_toan,
-                    'tong_tien' => $tongTien,
-                ];
+
+                $address = DB::table('user_addresses')
+    ->where('id', $request->address_id)
+    ->where('user_id', Auth::id())
+    ->first();
+
+if (!$address) {
+    throw new \RuntimeException('Vui lòng chọn địa chỉ giao hàng');
+}
+
+    $order = [
+    'user_id' => Auth::id(),
+    'address_id' => $request->address_id, // thêm dòng này
+    'ngay_dat_hang' => now(),
+    'tinh_trang' => 1,
+    'hinh_thuc_thanh_toan' => $request->hinh_thuc_thanh_toan,
+    'tong_tien' => $tongTien,
+];
 
                 $maDonHang = DB::table('don_hang')->insertGetId($order, 'ma_don_hang');
 
@@ -113,7 +126,10 @@ class ShopOrderController extends Controller
                     if ($updatedRows === 0) {
                         throw new \RuntimeException('Sản phẩm "' . $row->tieu_de . '" không đủ tồn kho để hoàn tất đơn hàng.');
                     }
-
+                    if ($tongTien < 100000) {
+    throw new \RuntimeException('Đơn hàng chưa đạt giá trị tối thiểu');
+}
+        
                     $mailData[] = (object) [
                         'tieu_de' => $row->tieu_de,
                         'so_luong' => $soLuong,
