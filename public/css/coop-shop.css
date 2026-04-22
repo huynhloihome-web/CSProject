@@ -489,4 +489,28 @@ input {
     .buy-btn {
         width: 100%;
     }
+
+    .shop-actions {
+        display: flex;
+        align-items: center;   /* QUAN TRỌNG */
+        gap: 15px;
+    }
+
+    .btn-cart {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .shop-actions {
+        display: flex;
+        align-items: center;   /* QUAN TRỌNG */
+        gap: 15px;
+    }
+
+    .btn-cart {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
