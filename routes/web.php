@@ -60,7 +60,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/order-status', [OrderStatusController::class, 'index'])->name('order.status');
     Route::get('/order-status/{id}', [OrderStatusController::class, 'show'])->name('order.detail');
     Route::post('/order-status/{id}/received', [OrderStatusController::class, 'received'])->name('order.received');
-    Route::post('/order-status/{id}/return', [OrderStatusController::class, 'returnOrder'])->name('order.return');
-});
+    Route::post('/order-status/{id}/return', [OrderStatusController::class, 'submitReturn'])->name('order.return');});
 
 require __DIR__ . '/auth.php';

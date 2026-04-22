@@ -1,5 +1,11 @@
 <x-coop-layout>
 
+@if(session('success'))
+    <div style="background:#d4edda; padding:10px; margin-bottom:10px;">
+        {{ session('success') }}
+    </div>
+@endif
+
 <div class="featured-products">
 
     <div class="section-heading">
@@ -79,7 +85,7 @@
                 @elseif($order->status == 'received')
                     ✅ Đã nhận hàng
                 @elseif($order->status == 'returning')
-                    🔄 Đang trả hàng
+                    🔄 Đã gửi yêu cầu trả hàng (chờ admin xử lý)
                 @elseif($order->status == 'refunded')
                     💸 Đã hoàn tiền
                 @endif
@@ -97,12 +103,26 @@
             @endif
 
             @if(in_array($order->status, ['shipping','received']))
-                <form method="POST" action="{{ route('order.return', $order->ma_don_hang) }}">
+
+                <form method="POST" action="{{ route('order.return', $order->ma_don_hang) }}" enctype="multipart/form-data">
                     @csrf
+
+                    <h4>📦 Yêu cầu trả hàng</h4>
+
+                    <textarea name="reason" required placeholder="Nhập lý do..." style="width:100%; margin-bottom:10px;"></textarea>
+
+                    <input type="file" name="evidences[]" multiple style="margin-bottom:10px;">
+
+                    <input type="text" name="bank_name" placeholder="Tên ngân hàng" style="width:100%; margin-bottom:10px;">
+
+                    <input type="text" name="bank_number" placeholder="Số tài khoản nhận tiền" style="width:100%; margin-bottom:10px;">
+
                     <button class="buy-btn" style="background:red">
-                        Yêu cầu trả hàng & hoàn tiền
+                        Gửi yêu cầu trả hàng
                     </button>
+
                 </form>
+
             @endif
 
         </div>
